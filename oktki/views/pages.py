@@ -1,24 +1,22 @@
 from flask import Blueprint, render_template, abort, redirect, url_for
 
-from ..models.pages import Page, EditPageForm
+from ..models.pages import Page, EditPageForm, CreatePageForm
 
 blueprint = Blueprint('Pages', __name__, template_folder='templates/pages', url_prefix='/pages')
 
-@blueprint.route('/')
+@blueprint.route('/', methods=('GET', 'POST'))
 def index():
-    return render_template('pages/index.html'), 200
+    form = CreatePageForm()
+    if form.validate_on_submit():
+        page = Page.create(form.title.data)
+        return redirect(url_for('Pages.page', title=page.title))
+    return render_template('pages/index.html', form=form), 200
 
 
 @blueprint.route('/page/<title>')
 def page(title):
     page = Page.get(title)
     return render_template('pages/page.html', page=page), 200
-
-
-@blueprint.route('/create/<title>')
-def create(title):
-    page = Page.create(title)
-    return redirect(url_for('Pages.page', title=page.title))
 
 
 @blueprint.route('/edit/<title>', methods=('GET', 'POST'))

@@ -2,7 +2,9 @@ from pymongo import TEXT
 from pymodm import connect, fields, MongoModel
 
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, SubmitField
+from wtforms import TextAreaField, StringField, SubmitField
+
+import mistune
 
 connect('mongodb://localhost:27017/oktki')
 
@@ -23,8 +25,17 @@ class Page(MongoModel):
         self.body = body
         self.save()
 
+    @property
+    def markdown(self):
+        return mistune.markdown(self.body)
+
+
+class CreatePageForm(FlaskForm):
+    title = StringField('Title')
+    submit = SubmitField()
+
 
 class EditPageForm(FlaskForm):
-    body = TextAreaField('body')
+    body = TextAreaField('Edit Content')
     submit = SubmitField()
 

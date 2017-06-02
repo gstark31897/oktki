@@ -2,5 +2,20 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
-{{ wtf.quick_form(form) }}
+<style>
+textarea.form-control {
+  resize: none;
+  height: 600px;
+}
+</style>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1>{{ page.title }}</h1>
+        </div>
+        <div class="panel-body">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+</div>
 {% endblock %}

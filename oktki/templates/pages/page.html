@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<html>
-<head>
-    <title>{{ page.title }}</title>
-</head>
-<body>
-    <h1>{{ page.title }}</h1>
-    <pre>{{ page.body }}</pre>
-</body>
-</html>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-9">
+                    <h1>{{ page.title }}</h1>
+                </div>
+                <div class="col-md-3">
+                    <a class="btn btn-default pull-right" href="/pages/edit/{{ page.title }}">Edit</a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">{{ page.markdown|safe }}</div>
+    </div>
+</div>
 {% endblock %}
