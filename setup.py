@@ -11,5 +11,5 @@ setup(
     url='',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['flask', 'flask-bootstrap'],
+    install_requires=['flask', 'flask-bootstrap', 'flask-wtf', 'pymongo', 'pymodm', 'mistune'],
 )
