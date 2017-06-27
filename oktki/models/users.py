@@ -2,7 +2,7 @@ from pymongo import TEXT
 from pymodm import connect, fields, MongoModel
 
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, StringField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField
 
 from . import crypto
 
@@ -15,8 +15,8 @@ class User(MongoModel):
     name = fields.CharField()
     hash = fields.CharField()
     salt = fields.CharField()
-    hash_version = fields.IntField()
-    logged_in = fields.BoolField()
+    hash_version = fields.IntegerField()
+    logged_in = fields.BooleanField()
 
     @staticmethod
     def get(name):
@@ -30,5 +30,11 @@ class User(MongoModel):
 
     def authenticate(self, password):
         hash = crypto.has_password(password, self.salt)
-        return hash = self.hash
+        return hash == self.hash
+
+
+class CreateUserForm(FlaskForm):
+    name = StringField('Username')
+    password = PasswordField('Password')
+    submit = SubmitField()
 
